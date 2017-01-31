@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/workspace.xml
+src/main/java/rashjz/info/view/
+target/

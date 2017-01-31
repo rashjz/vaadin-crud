@@ -1,9 +1,9 @@
 `This tutorial is written using Java 8`
 
-simplenavi
+vaadin-test-app
 ==============
 
-Template for a simple Vaadin application that only requires a Servlet 3.0 container to run.
+Simple Vaadin application with jpa and spring boot 
 
 
 Workflow
