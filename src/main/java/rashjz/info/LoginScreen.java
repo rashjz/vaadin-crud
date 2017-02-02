@@ -37,16 +37,15 @@ public class LoginScreen extends CssLayout implements View {
         // - see the theme for how this is made responsive for various screen
         // sizes
         VerticalLayout centeringLayout = new VerticalLayout();
-        centeringLayout.setStyleName("centering-layout");
-        centeringLayout.addComponent(loginForm);
-        centeringLayout.setComponentAlignment(loginForm,
-                Alignment.MIDDLE_CENTER);
+//        centeringLayout.setStyleName("centering-layout");
+        Panel loginPanel = new Panel("Login  Panel ");
+        loginPanel.setSizeUndefined();
+        loginPanel.setContent(loginForm);
 
-        // information text about logging in
-        CssLayout loginInformation = buildLoginInformation();
+        centeringLayout.addComponent(loginPanel);
+        centeringLayout.setComponentAlignment(loginPanel,Alignment.MIDDLE_CENTER);
 
         addComponent(centeringLayout);
-        addComponent(loginInformation);
     }
 
     private Component buildLoginForm() {
@@ -54,7 +53,7 @@ public class LoginScreen extends CssLayout implements View {
 
         loginForm.addStyleName("login-form");
         loginForm.setSizeUndefined();
-        loginForm.setMargin(false);
+        loginForm.setMargin(true);
 
         loginForm.addComponent(username = new TextField("Username", "admin"));
         username.setWidth(15, Unit.EM);
@@ -91,16 +90,6 @@ public class LoginScreen extends CssLayout implements View {
         return loginForm;
     }
 
-    private CssLayout buildLoginInformation() {
-        CssLayout loginInformation = new CssLayout();
-        loginInformation.setStyleName("login-information");
-        Label loginInfoText = new Label(
-                "<h1>Login Information</h1>"
-                        + "Log in as &quot;admin&quot; to have full access. Log in with any other username to have read-only access. For all users, any password is fine",
-                ContentMode.HTML);
-        loginInformation.addComponent(loginInfoText);
-        return loginInformation;
-    }
 
     private void login() {
         if (accessControl.signIn(username.getValue(), password.getValue())) {

@@ -55,9 +55,9 @@ public class StatsView extends StatsViewDesign implements View {
         actions.setSpacing(true);
         mainLayout.setMargin(true);
         mainLayout.setSpacing(true);
-        mainLayout.setComponentAlignment(actions, Alignment.MIDDLE_CENTER);
-        mainLayout.setComponentAlignment(grid, Alignment.MIDDLE_CENTER);
-        mainLayout.setComponentAlignment(editor, Alignment.MIDDLE_CENTER);
+        mainLayout.setComponentAlignment(actions, Alignment.TOP_LEFT);
+        mainLayout.setComponentAlignment(grid, Alignment.MIDDLE_LEFT);
+        mainLayout.setComponentAlignment(editor, Alignment.MIDDLE_LEFT);
         grid.setHeight(300, Sizeable.Unit.PIXELS);
         grid.setWidth(700, Sizeable.Unit.PIXELS);
         grid.setColumns("id", "firstName", "lastName", "currency", "idate");
@@ -105,16 +105,10 @@ public class StatsView extends StatsViewDesign implements View {
     }
 
     public void initializeMenu() {
-        main = barmenu.addItem("Main", FontAwesome.FLAG, new MenuBar.Command() {
-            @Override
-            public void menuSelected(MenuBar.MenuItem menuItem) {
-                NotifyUtil.notify("test",Notification.Type.HUMANIZED_MESSAGE.getStyle());
-            }
-        });
+        main = barmenu.addItem("Main", FontAwesome.FLAG,null);
         about = barmenu.addItem("About", FontAwesome.INFO, null);
         contact = barmenu.addItem("Contact", FontAwesome.MOBILE, null);
         logout = barmenu.addItem("LogOut", FontAwesome.SIGN_OUT, new MenuBar.Command() {
-
             @Override
             public void menuSelected(MenuBar.MenuItem selectedItem) {
                 VaadinSession.getCurrent().getSession().invalidate();

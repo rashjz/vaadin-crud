@@ -24,6 +24,7 @@ public class MainLayoutDesign extends HorizontalLayout {
     protected NativeButton menuButton1;
     protected NativeButton menuButton2;
     protected NativeButton menuButton3;
+    protected NativeButton logout;
     protected Panel contentPanel;
 
     public MainLayoutDesign() {

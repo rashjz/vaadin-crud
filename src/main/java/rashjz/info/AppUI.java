@@ -21,11 +21,11 @@ import javax.servlet.annotation.WebServlet;
 
 @SpringUI
 @Theme("mytheme")
-public class MyUI extends UI {
+public class AppUI extends UI {
     private AccessControl accessControl = new BasicAccessControl();
     private final CustomerRepository repository;
     @Autowired
-        public MyUI(CustomerRepository repository) {
+        public AppUI(CustomerRepository repository) {
         this.repository = repository;
     }
 
@@ -54,8 +54,8 @@ public class MyUI extends UI {
         getNavigator().navigateTo(getNavigator().getState());
     }
 
-    public static MyUI get() {
-        return (MyUI) UI.getCurrent();
+    public static AppUI get() {
+        return (AppUI) UI.getCurrent();
     }
 
     public AccessControl getAccessControl() {
@@ -63,7 +63,7 @@ public class MyUI extends UI {
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
+    @VaadinServletConfiguration(ui = AppUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
 }
