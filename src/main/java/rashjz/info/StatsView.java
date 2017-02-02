@@ -5,7 +5,9 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
@@ -111,7 +113,15 @@ public class StatsView extends StatsViewDesign implements View {
         });
         about = barmenu.addItem("About", FontAwesome.INFO, null);
         contact = barmenu.addItem("Contact", FontAwesome.MOBILE, null);
-        logout = barmenu.addItem("LogOut", FontAwesome.SIGN_OUT, null);
+        logout = barmenu.addItem("LogOut", FontAwesome.SIGN_OUT, new MenuBar.Command() {
+
+            @Override
+            public void menuSelected(MenuBar.MenuItem selectedItem) {
+                VaadinSession.getCurrent().getSession().invalidate();
+                Page.getCurrent().reload();
+            }
+        });
+
         barmenu.setSizeFull();
     }
 }

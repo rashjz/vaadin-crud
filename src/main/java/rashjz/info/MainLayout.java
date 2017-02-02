@@ -17,7 +17,7 @@ public class MainLayout extends MainLayoutDesign {
         navigator.addView(StatsView.VIEW_NAME, new StatsView(repository));
         navigator.addView(PluginsView.VIEW_NAME, PluginsView.class);
         navigator.addView(PermissionsView.VIEW_NAME, PermissionsView.class);
-        navigator.addView(LoginPage.NAME, LoginPage.class);
+//        navigator.addView(LoginScreen.NAME, LoginScreen.class);
 
 
 
@@ -26,7 +26,7 @@ public class MainLayout extends MainLayoutDesign {
         menuButton3.addClickListener(event -> doNavigate(PermissionsView.VIEW_NAME));
 
         if (navigator.getState().isEmpty()) {
-            navigator.navigateTo(LoginPage.NAME);
+            navigator.navigateTo(StatsView.VIEW_NAME);
         } else {
             navigator.navigateTo(navigator.getState());
         }
