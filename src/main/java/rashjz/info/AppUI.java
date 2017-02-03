@@ -38,7 +38,7 @@ public class AppUI extends UI {
 
 //        setContent(new MainLayout(repository));
         if (!accessControl.isUserSignedIn()) {
-            setContent(new LoginScreen(accessControl, new LoginScreen.LoginListener() {
+            setContent(new LoginView(accessControl, new LoginView.LoginListener() {
                 @Override
                 public void loginSuccessful() {
                     showMainView();
@@ -66,4 +66,6 @@ public class AppUI extends UI {
     @VaadinServletConfiguration(ui = AppUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
+
+
 }

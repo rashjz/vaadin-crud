@@ -21,13 +21,15 @@ import com.vaadin.ui.declarative.Design;
 @SuppressWarnings("serial")
 public class MainLayoutDesign extends HorizontalLayout {
     protected VerticalLayout menuLayout;
-    protected NativeButton menuButton1;
+    protected NativeButton accident;
     protected NativeButton menuButton2;
     protected NativeButton menuButton3;
     protected NativeButton logout;
+    protected NativeButton hideMenu;
     protected Panel contentPanel;
 
     public MainLayoutDesign() {
         Design.read(this);
+
     }
 }

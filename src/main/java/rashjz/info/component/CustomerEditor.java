@@ -12,7 +12,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import rashjz.info.domain.Customer;
 import rashjz.info.jpa.CustomerRepository;
-import rashjz.info.util.NotifyUtil;
+import rashjz.info.util.VaadinUtils;
 
 import java.util.Date;
 
@@ -114,7 +114,7 @@ public class CustomerEditor extends VerticalLayout {
         // is clicked
         save.addClickListener(e -> h.onChange());
         delete.addClickListener(e -> h.onChange());
-        currency.addValueChangeListener((Property.ValueChangeListener) event -> NotifyUtil.notify("" + event.getProperty().getValue(), Notification.Type.ERROR_MESSAGE.getStyle()));
+        currency.addValueChangeListener((Property.ValueChangeListener) event -> VaadinUtils.notify("" + event.getProperty().getValue(), Notification.Type.ERROR_MESSAGE.getStyle()));
     }
 
 }

@@ -4,14 +4,13 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import rashjz.info.authentication.AccessControl;
 
 import java.io.Serializable;
 
-public class LoginScreen extends CssLayout implements View {
+public class LoginView extends CssLayout implements View {
 
     private TextField username;
     private PasswordField password;
@@ -20,7 +19,7 @@ public class LoginScreen extends CssLayout implements View {
     private LoginListener loginListener;
     private AccessControl accessControl;
 
-    public LoginScreen(AccessControl accessControl, LoginListener loginListener) {
+    public LoginView(AccessControl accessControl, LoginListener loginListener) {
         this.loginListener = loginListener;
         this.accessControl = accessControl;
         buildUI();
@@ -77,7 +76,7 @@ public class LoginScreen extends CssLayout implements View {
             }
         });
         login.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-        login.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+        login.addStyleName(ValoTheme.BUTTON_TINY);
 
         buttons.addComponent(forgotPassword = new Button("Forgot password?"));
         forgotPassword.addClickListener(new Button.ClickListener() {

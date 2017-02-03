@@ -31,12 +31,13 @@ public class Application {
         return (args) -> {
             log.info(repository + " ********************************");
             // save a couple of customers
-            repository.save(new Customer("Jack", "Bauer", "USD", new Date()));
-            repository.save(new Customer("Chloe", "O'Brian", "GBP", new Date()));
-            repository.save(new Customer("Kim", "Bauer", "USD", new Date()));
-            repository.save(new Customer("David", "Palmer", "EUR", new SimpleDateFormat("yyyy-MM-dd").parse("2011-01-01")));
-            repository.save(new Customer("Michelle", "Dessler", "USD", new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-01")));
-
+            repository.save(new Customer("Elshad", "Oruc", "USD", new Date()));
+            repository.save(new Customer("Elchin", "Abdulla", "GBP", new Date()));
+            repository.save(new Customer("Farid", "Mamed", "USD", new Date()));
+            repository.save(new Customer("Azer", "Ekber", "EUR", new SimpleDateFormat("yyyy-MM-dd").parse("2011-01-01")));
+            repository.save(new Customer("Mamed", "Ahmed", "USD", new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-01")));
+            repository.save(new Customer("Rashad", "Javad", "USD", new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-01")));
+            repository.save(new Customer("Vusal", "Hasanli", "USD", new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-01")));
             // fetch all customers
             log.info("Customers found with findAll():");
             log.info("-------------------------------");
