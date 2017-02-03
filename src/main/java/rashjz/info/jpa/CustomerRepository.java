@@ -1,5 +1,6 @@
 package rashjz.info.jpa;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import rashjz.info.domain.Customer;
@@ -11,4 +12,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 
     public List<Customer> findByLastNameStartsWithIgnoreCase(String lastName);
+
+//    public List<Customer> lazyloadCustomers(Pageable pageable);
 }

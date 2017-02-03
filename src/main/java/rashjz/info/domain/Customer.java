@@ -25,7 +25,7 @@ public class Customer {
 
     private Date idate;
 
-    protected Customer() {
+    public Customer() {
     }
 
     public Customer(String firstName, String lastName, String currency, Date idate) {
@@ -38,6 +38,10 @@ public class Customer {
     public Customer(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Customer(String s) {
+         firstName=s;
     }
 
     public String getCurrency() {
