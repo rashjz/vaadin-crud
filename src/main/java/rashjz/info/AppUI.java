@@ -23,9 +23,9 @@ import javax.servlet.annotation.WebServlet;
 @Theme("mytheme")
 public class AppUI extends UI {
     private AccessControl accessControl = new BasicAccessControl();
-    private final CustomerRepository repository;
+    public static  CustomerRepository repository;
     @Autowired
-        public AppUI(CustomerRepository repository) {
+        public AppUI( CustomerRepository repository) {
         this.repository = repository;
     }
 

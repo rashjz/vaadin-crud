@@ -25,4 +25,8 @@ public class VaadinUtils {
 //        content.addComponent(view);
 //        content.setComponentAlignment(view, Alignment.MIDDLE_CENTER);
     }
+    public void createWindows(){
+
+
+    }
 }

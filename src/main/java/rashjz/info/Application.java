@@ -7,9 +7,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
 import rashjz.info.domain.Customer;
 import rashjz.info.jpa.CustomerRepository;
 
+import java.util.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -56,10 +58,12 @@ public class Application {
             // fetch customers by last name
             log.info("Customer found with findByLastNameStartsWithIgnoreCase('Bauer'):");
             log.info("--------------------------------------------");
-            for (Customer bauer : repository
-                    .findByLastNameStartsWithIgnoreCase("Bauer")) {
-                log.info(bauer.toString());
-            }
+           List<Customer>  list= repository.findAll(new PageRequest(1, 5)).getContent();
+            System.out.println(list.size());
+//            for (Customer bauer : repository
+//                    .getAllCustomers("Bauer")) {
+//                log.info(bauer.toString());
+//            }
             log.info("");
         };
     }

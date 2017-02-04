@@ -2,26 +2,14 @@ package rashjz.info.component;
 
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.data.util.BeanItem;
+import org.springframework.data.domain.PageRequest;
+import rashjz.info.AccidentView;
+import rashjz.info.AppUI;
 import rashjz.info.domain.Customer;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TableLazyLoadContainer extends BeanContainer {
-
-    private List<Customer> dbFake = new ArrayList<Customer>();
-
-    {
-        for (int i = 0; i < 1000; i++) {
-            dbFake.add(new Customer("Sara " + i,"test","usd",new Date()));
-            dbFake.add(new Customer("Nicolas " + i,"test","usd",new Date()));
-            dbFake.add(new Customer("Matthew " + i,"test","usd",new Date()));
-            dbFake.add(new Customer("Michaela " + i,"test","usd",new Date()));
-            dbFake.add(new Customer("Martin " + i,"test","usd",new Date()));
-            dbFake.add(new Customer("Anna " + i,"test","usd",new Date()));
-        }
-    }
 
 
     public TableLazyLoadContainer(Class type) {
@@ -31,8 +19,10 @@ public class TableLazyLoadContainer extends BeanContainer {
     @Override
     public int size() {
         // TODO: here you should get COUNT from database
-        int size = dbFake.size();
-        return size;
+        System.out.println("size -- - - - - -- : " + AccidentView.table.getCurrentPage());
+        long size = AppUI.repository.findAll(new PageRequest(AccidentView.table.getCurrentPage(),5)).getTotalElements();
+        System.out.println(size+"____________________");
+        return (int) size;
     }
 
     @Override
@@ -42,14 +32,10 @@ public class TableLazyLoadContainer extends BeanContainer {
 
     @Override
     public List<?> getItemIds(final int startIndex, final int numberOfItems) {
-        int end = startIndex + numberOfItems;
         // TODO: here you should place fetching data from database (it should be paged SQL of course)
-        System.out.println("start: " + startIndex + ", end: " + end);
-        //new Sort(Sort.Direction.DESC, "description").and(new Sort(Sort.Direction.ASC, "title"))
-//        Pageable pageable = new PageRequest(startIndex, end, null);
-        List<Customer> res = dbFake.subList(startIndex, end);
-//        List<Customer> res = repository.lazyloadCustomers(pageable);
-
+        System.out.println("startIndex: " + startIndex + ", numberOfItems: " + numberOfItems);
+        List<Customer> res = AppUI.repository.findAll(new PageRequest(startIndex, startIndex+5)).getContent();
+//        size = AppUI.repository.findAll(pageable).getSize();
         return res;
     }
 }
