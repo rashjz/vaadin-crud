@@ -11,6 +11,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import rashjz.info.authentication.AccessControl;
 import rashjz.info.authentication.BasicAccessControl;
+import rashjz.info.authentication.LoginListener;
 import rashjz.info.jpa.CustomerRepository;
 
 import javax.servlet.annotation.WebServlet;
@@ -38,9 +39,8 @@ public class AppUI extends UI {
         setLocale(vaadinRequest.getLocale());
         getPage().setTitle("Application");
 
-//        setContent(new MainLayout(repository));
         if (!accessControl.isUserSignedIn()) {
-            setContent(new LoginView(accessControl, new LoginView.LoginListener() {
+            setContent(new LoginView(accessControl, new LoginListener() {
                 @Override
                 public void loginSuccessful() {
                     showMainView();

@@ -3,12 +3,11 @@ package rashjz.info;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import rashjz.info.authentication.AccessControl;
-
-import java.io.Serializable;
+import rashjz.info.authentication.LoginListener;
+import rashjz.info.util.VaadinUtils;
 
 public class LoginView extends CssLayout implements View {
 
@@ -27,24 +26,26 @@ public class LoginView extends CssLayout implements View {
     }
 
     private void buildUI() {
-        addStyleName("login-screen");
+//        addStyleName("login-screen");
 
         // login form, centered in the available part of the screen
         Component loginForm = buildLoginForm();
-
-        // layout to center login form when there is sufficient screen space
-        // - see the theme for how this is made responsive for various screen
-        // sizes
         VerticalLayout centeringLayout = new VerticalLayout();
 //        centeringLayout.setStyleName("centering-layout");
         Panel loginPanel = new Panel("Login  Panel ");
-        loginPanel.setSizeUndefined();
+        loginPanel.setSizeFull();
         loginPanel.setContent(loginForm);
 
+        Label label=new Label("istifadəçi Girişi");
+        centeringLayout.addComponent(label);
+        centeringLayout.setComponentAlignment(label,Alignment.TOP_CENTER);
         centeringLayout.addComponent(loginPanel);
         centeringLayout.setComponentAlignment(loginPanel, Alignment.MIDDLE_CENTER);
+        centeringLayout.setSizeUndefined();
 
         addComponent(centeringLayout);
+
+
     }
 
     private Component buildLoginForm() {
@@ -82,37 +83,25 @@ public class LoginView extends CssLayout implements View {
         forgotPassword.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                showNotification(new Notification("Hint: Try anything"));
+                VaadinUtils.showNotification(new Notification("Hint: Try anything"));
             }
         });
         forgotPassword.addStyleName(ValoTheme.BUTTON_LINK);
         return loginForm;
     }
 
-
     private void login() {
         if (accessControl.signIn(username.getValue(), password.getValue())) {
             loginListener.loginSuccessful();
         } else {
-            showNotification(new Notification("Login failed", "Please check your username and password and try again.",Notification.Type.HUMANIZED_MESSAGE));
+            VaadinUtils.showNotification(new Notification("Login failed", "Please check  username and password",Notification.Type.HUMANIZED_MESSAGE));
             username.focus();
         }
-    }
-
-    private void showNotification(Notification notification) {
-        // keep the notification visible a little while after moving the
-        // mouse, or until clicked
-        notification.setDelayMsec(2000);
-        notification.show(Page.getCurrent());
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
 
-    }
-
-    public interface LoginListener extends Serializable {
-        void loginSuccessful();
     }
 
 }

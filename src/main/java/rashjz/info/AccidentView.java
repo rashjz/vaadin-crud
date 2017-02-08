@@ -18,8 +18,6 @@ import rashjz.info.util.VaadinUtils;
 
 import java.util.logging.Logger;
 
-//import rashjz.info.component.TableLazyLoadContainer;
-
 @SpringComponent
 @UIScope
 public class AccidentView extends AccidentViewDesign implements View {
@@ -73,8 +71,8 @@ public class AccidentView extends AccidentViewDesign implements View {
         mainLayout.setComponentAlignment(editor, Alignment.MIDDLE_LEFT);
 
         editor.setChangeHandler(() -> {
-            System.out.println("xxxxxxxxxx");
-//            listCustomers(filter.getValue(), table.getPageLength(), table.getCurrentPage());
+            //when save delete or cancel invokes setChangeHandler calling
+            showEditor(false);
         });
 
         filter.setInputPrompt("Filter by last name");
@@ -94,7 +92,10 @@ public class AccidentView extends AccidentViewDesign implements View {
         });
 
         // Instantiate and edit new Customer the new button is clicked
-        addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "", "", null)));
+        addNewBtn.addClickListener(e -> {
+            showEditor(true);
+            editor.editCustomer(new Customer("", "", "", null));
+        });
         // Listen changes made by the editor, refresh data from backend
 
         listCustomers("");
@@ -120,15 +121,15 @@ public class AccidentView extends AccidentViewDesign implements View {
     }
 
     public void initializeMenu(VerticalLayout menuLayout) {
-        main = barmenu.addItem("Main", FontAwesome.FLAG, (MenuBar.Command) selectedItem -> {
+        main = barmenu.addItem("Main", FontAwesome.TABLE, (MenuBar.Command) selectedItem -> {
             table.setVisible(true);
             editor.setVisible(false);
         });
+        contact = barmenu.addItem("Show Menu", FontAwesome.MOBILE, (MenuBar.Command) selectedItem -> menuLayout.setVisible(true));
         about = barmenu.addItem("About", FontAwesome.INFO, (MenuBar.Command) selectedItem -> {
             AboutWindows aboutWindows = new AboutWindows();
             UI.getCurrent().addWindow(aboutWindows);
         });
-        contact = barmenu.addItem("Show Menu", FontAwesome.MOBILE, (MenuBar.Command) selectedItem -> menuLayout.setVisible(true));
         logout = barmenu.addItem("LogOut", FontAwesome.SIGN_OUT, (MenuBar.Command) selectedItem -> VaadinUtils.logOut());
         barmenu.setSizeFull();
     }

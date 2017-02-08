@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * UI content when the user is not logged in yet.
  */
-public class LoginScreen extends CssLayout {
+public class LoginScreen extends VerticalLayout {
 
     private TextField username;
     private PasswordField password;

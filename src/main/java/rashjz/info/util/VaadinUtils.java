@@ -11,6 +11,13 @@ import com.vaadin.ui.Notification;
  */
 public class VaadinUtils {
 
+    public static final void showNotification(Notification notification) {
+        // keep the notification visible a little while after moving the
+        // mouse, or until clicked
+        notification.setDelayMsec(2000);
+        notification.show(Page.getCurrent());
+    }
+
     public static final void notify(String message, String type) {
         new Notification(message, type).show(Page.getCurrent());
     }
@@ -25,7 +32,8 @@ public class VaadinUtils {
 //        content.addComponent(view);
 //        content.setComponentAlignment(view, Alignment.MIDDLE_CENTER);
     }
-    public void createWindows(){
+
+    public void createWindows() {
 
 
     }
