@@ -1,9 +1,12 @@
 `This tutorial is written using Java 8`
 
-vaadin-test-app
+vaadin-crud application
 ==============
-
-Simple Vaadin application with jpa and spring boot 
+Vaadin application with jpa and spring boot included
+###### Vaadin navigation example 
+###### Vaadin lazy table example with jpa and sorting fintering 
+###### Custom design example 
+###### User authentication Custom login exampple 
 
 
 Workflow
