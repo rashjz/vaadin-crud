@@ -42,7 +42,7 @@ public class LoginView extends CssLayout implements View {
         loginPanel.setContent(loginForm);
 
         centeringLayout.addComponent(loginPanel);
-        centeringLayout.setComponentAlignment(loginPanel,Alignment.MIDDLE_CENTER);
+        centeringLayout.setComponentAlignment(loginPanel, Alignment.MIDDLE_CENTER);
 
         addComponent(centeringLayout);
     }
@@ -94,9 +94,7 @@ public class LoginView extends CssLayout implements View {
         if (accessControl.signIn(username.getValue(), password.getValue())) {
             loginListener.loginSuccessful();
         } else {
-            showNotification(new Notification("Login failed",
-                    "Please check your username and password and try again.",
-                    Notification.Type.HUMANIZED_MESSAGE));
+            showNotification(new Notification("Login failed", "Please check your username and password and try again.",Notification.Type.HUMANIZED_MESSAGE));
             username.focus();
         }
     }

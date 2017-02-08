@@ -1,15 +1,15 @@
 package rashjz.info.jpa;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import rashjz.info.domain.Customer;
 
-//@Service
-@Transactional
-public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long> {
+import java.util.List;
 
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-//    public List<Customer> getAllCustomers(String lastName);
+     //IgnoreCase makes uppercase
+    List<Customer> findByFirstNameLike(String nameFilter, Pageable pageable);
 
-//    public List<Customer> lazyloadCustomers(Pageable pageable);
+    long countByFirstNameLike(String nameFilter);
 }
