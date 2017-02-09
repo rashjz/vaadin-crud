@@ -13,6 +13,7 @@ import rashjz.info.authentication.AccessControl;
 import rashjz.info.authentication.BasicAccessControl;
 import rashjz.info.authentication.LoginListener;
 import rashjz.info.jpa.CustomerRepository;
+import rashjz.info.jpa.UsersRepository;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -23,36 +24,39 @@ import javax.servlet.annotation.WebServlet;
 @SpringUI
 @Theme("mytheme")
 public class AppUI extends UI {
-    private AccessControl accessControl = new BasicAccessControl();
 
-    public static CustomerRepository repository;
+    private AccessControl accessControl;
+    public CustomerRepository customerRepository;
+    public UsersRepository usersRepository;
 
     @Autowired
-        public AppUI( CustomerRepository repository) {
-        this.repository = repository;
+    public AppUI(CustomerRepository customerRepository,UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
+        this.customerRepository = customerRepository;
     }
 
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+        accessControl = new BasicAccessControl(usersRepository);
+
         Responsive.makeResponsive(this);
         setLocale(vaadinRequest.getLocale());
-        getPage().setTitle("Application");
+        getPage().setTitle("BDYPI QAS");
 
         if (!accessControl.isUserSignedIn()) {
-            setContent(new LoginView(accessControl, new LoginListener() {
-                @Override
-                public void loginSuccessful() {
-                    showMainView();
-                }
-            }));
+            setContent(new LoginView(accessControl
+                    , (LoginListener) () -> showMainView())
+            );
+
         } else {
             showMainView();
         }
     }
+
     protected void showMainView() {
         addStyleName(ValoTheme.UI_WITH_MENU);
-        setContent(new MainLayout(repository));
+        setContent(new MainLayout(customerRepository,usersRepository));
         getNavigator().navigateTo(getNavigator().getState());
     }
 

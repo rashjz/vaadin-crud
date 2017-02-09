@@ -4,12 +4,14 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.themes.ValoTheme;
 import rashjz.info.authentication.AccessControl;
 import rashjz.info.authentication.LoginListener;
 import rashjz.info.util.VaadinUtils;
 
-public class LoginView extends CssLayout implements View {
+
+public class LoginView extends HorizontalLayout implements View {
 
     private TextField username;
     private PasswordField password;
@@ -17,8 +19,11 @@ public class LoginView extends CssLayout implements View {
     private Button forgotPassword;
     private LoginListener loginListener;
     private AccessControl accessControl;
+    private Component loginForm;
+    private VerticalLayout centeringLayout;
 
     public LoginView(AccessControl accessControl, LoginListener loginListener) {
+//        Design.read(this);
         this.loginListener = loginListener;
         this.accessControl = accessControl;
         buildUI();
@@ -26,45 +31,34 @@ public class LoginView extends CssLayout implements View {
     }
 
     private void buildUI() {
-//        addStyleName("login-screen");
 
-        // login form, centered in the available part of the screen
-        Component loginForm = buildLoginForm();
-        VerticalLayout centeringLayout = new VerticalLayout();
-//        centeringLayout.setStyleName("centering-layout");
-        Panel loginPanel = new Panel("Login  Panel ");
-        loginPanel.setSizeFull();
+        centeringLayout = new VerticalLayout();
+        Panel loginPanel = new Panel("Login  Panel");
+        loginForm = buildLoginForm();
         loginPanel.setContent(loginForm);
-
-        Label label=new Label("istifadəçi Girişi");
-        centeringLayout.addComponent(label);
-        centeringLayout.setComponentAlignment(label,Alignment.TOP_CENTER);
+        loginPanel.setSizeUndefined();
         centeringLayout.addComponent(loginPanel);
         centeringLayout.setComponentAlignment(loginPanel, Alignment.MIDDLE_CENTER);
         centeringLayout.setSizeUndefined();
-
+        centeringLayout.setStyleName(Reindeer.LAYOUT_BLUE);
         addComponent(centeringLayout);
-
 
     }
 
     private Component buildLoginForm() {
         FormLayout loginForm = new FormLayout();
-
-        loginForm.addStyleName("login-form");
         loginForm.setSizeUndefined();
         loginForm.setMargin(true);
 
-        loginForm.addComponent(username = new TextField("Username", "admin"));
+        loginForm.addComponent(username = new TextField("Username", "rashjz"));
         username.setWidth(15, Unit.EM);
-        loginForm.addComponent(password = new PasswordField("Password"));
+        loginForm.addComponent(password = new PasswordField("Password", "12"));
         password.setWidth(15, Unit.EM);
-        password.setDescription("Write anything");
+
         CssLayout buttons = new CssLayout();
-        buttons.setStyleName("buttons");
         loginForm.addComponent(buttons);
 
-        buttons.addComponent(login = new Button("Login"));
+        buttons.addComponent(login = new Button("Giriş"));
         login.setDisableOnClick(true);
         login.addClickListener(new Button.ClickListener() {
             @Override
@@ -94,7 +88,7 @@ public class LoginView extends CssLayout implements View {
         if (accessControl.signIn(username.getValue(), password.getValue())) {
             loginListener.loginSuccessful();
         } else {
-            VaadinUtils.showNotification(new Notification("Login failed", "Please check  username and password",Notification.Type.HUMANIZED_MESSAGE));
+            VaadinUtils.showNotification(new Notification("Login failed", "Please check  username and password", Notification.Type.HUMANIZED_MESSAGE));
             username.focus();
         }
     }

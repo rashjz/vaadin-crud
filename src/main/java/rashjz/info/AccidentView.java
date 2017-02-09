@@ -1,6 +1,5 @@
 package rashjz.info;
 
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -21,16 +20,17 @@ import java.util.logging.Logger;
 @SpringComponent
 @UIScope
 public class AccidentView extends AccidentViewDesign implements View {
+
     private final static Logger logger = Logger.getLogger(AccidentView.class.getName());
+
     public static final String VIEW_NAME = "accident";
+    //variables
     public static int PAGESIZE = 10;
     private final CustomerEditor editor;
-    public final Grid grid;
     private final TextField filter;
     private final Button addNewBtn;
     private final MenuBar barmenu;
     public MenuBar.MenuItem main, about, contact, logout;
-    private Navigator navigator;
     private VerticalLayout mainLayout;
     private HorizontalLayout actions;
     public static MTable table;
@@ -39,7 +39,6 @@ public class AccidentView extends AccidentViewDesign implements View {
 
         super(repository);
         this.editor = new CustomerEditor(repository);
-        this.grid = new Grid();
         this.filter = new TextField();
         this.addNewBtn = new Button("Add Item", FontAwesome.PLUS_CIRCLE);
         this.barmenu = new MenuBar();
@@ -122,10 +121,9 @@ public class AccidentView extends AccidentViewDesign implements View {
 
     public void initializeMenu(VerticalLayout menuLayout) {
         main = barmenu.addItem("Main", FontAwesome.TABLE, (MenuBar.Command) selectedItem -> {
-            table.setVisible(true);
-            editor.setVisible(false);
+            showEditor(false);
         });
-        contact = barmenu.addItem("Show Menu", FontAwesome.MOBILE, (MenuBar.Command) selectedItem -> menuLayout.setVisible(true));
+        contact = barmenu.addItem("Menu", FontAwesome.EXTERNAL_LINK, (MenuBar.Command) selectedItem -> menuLayout.setVisible(true));
         about = barmenu.addItem("About", FontAwesome.INFO, (MenuBar.Command) selectedItem -> {
             AboutWindows aboutWindows = new AboutWindows();
             UI.getCurrent().addWindow(aboutWindows);

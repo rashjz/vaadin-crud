@@ -1,17 +1,27 @@
 package rashjz.info.authentication;
 
-/**
- * Default mock implementation of {@link AccessControl}. This implementation
- * accepts any string as a password, and considers the user "admin" as the only
- * administrator.
- */
+import rashjz.info.domain.Users;
+import rashjz.info.jpa.UsersRepository;
+
+import java.util.logging.Logger;
+
+
 public class BasicAccessControl implements AccessControl {
+    private final static Logger logger = Logger.getLogger(BasicAccessControl.class.getName());
+    private UsersRepository repository;
+
+    public BasicAccessControl(UsersRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public boolean signIn(String username, String password) {
         if (username == null || username.isEmpty())
             return false;
-
+        Users users = repository.findByUsernameAndPassword(username, password);
+        if (users == null)
+            return false;
+        logger.info(password + " " + username + " " + users);
         CurrentUser.set(username);
         return true;
     }

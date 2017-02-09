@@ -1,9 +1,7 @@
 package rashjz.info.authentication;
 
-/**
- * Simple interface for authentication and authorization checks.
- */
 public interface AccessControl {
+
 
     public boolean signIn(String username, String password);
 
