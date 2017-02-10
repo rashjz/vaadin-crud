@@ -39,49 +39,52 @@ $v-font-weight: 400;
 
 @mixin mytheme {
   @include valo;
-  
+
   $menu-bg: #0072C6;
   $menu-item-color: valo-font-color($menu-bg, 0.8);
-  
+
+  .backColorBlack {
+    background-color: #37404E;
+  }
+
   .menu-layout {
-  		background-color: $menu-bg; 
+    background-color: $menu-bg;
   }
   .menu-item {
-  	position: relative;
-  	padding: 0 40px 0 20px;
-  	text-align: left;
-  	height: 50px;
-  	border: none;
-  	background-color: $menu-bg;
-  	color: $menu-item-color;
-  	outline: none;
-  	
-  	.v-nativebutton-caption {
-  		position: absolute;
-  		bottom: 10px;
-  		left: 2.5em;
-  	}
-  	
-  	.v-icon {
-  		font-size: 30px;
-  	}
-  	
-  	&:active span {
-  		@include transition(color 0.2s linear);
-  		color: darken($menu-item-color, 30%);
-  	}
-  	
-  	&:active .v-icon, &:focus .v-icon {
-  		position: relative;
-  		top: 0;
-  		left: 0;
-  	}
-  	
-  	&:hover {
-  		color: tint($menu-item-color, 50%);
-  		cursor: pointer;
-  	}
+    position: relative;
+    padding: 0 40px 0 20px;
+    text-align: left;
+    height: 50px;
+    border: none;
+    background-color: $menu-bg;
+    color: $menu-item-color;
+    outline: none;
+
+    .v-nativebutton-caption {
+      position: absolute;
+      bottom: 10px;
+      left: 2.5em;
+    }
+
+    .v-icon {
+      font-size: 30px;
+    }
+
+    &:active span {
+      @include transition(color 0.2s linear);
+      color: darken($menu-item-color, 30%);
+    }
+
+    &:active .v-icon, &:focus .v-icon {
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+
+    &:hover {
+      color: tint($menu-item-color, 50%);
+      cursor: pointer;
+    }
   }
-  
 
 }

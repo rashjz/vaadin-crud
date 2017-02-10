@@ -1,9 +1,6 @@
 package rashjz.info.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Mobby on 2/9/2017.
@@ -17,6 +14,7 @@ public class Users {
     private Byte status;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     public int getId() {
         return id;

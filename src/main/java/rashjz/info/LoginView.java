@@ -4,22 +4,21 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.themes.ValoTheme;
 import rashjz.info.authentication.AccessControl;
 import rashjz.info.authentication.LoginListener;
 import rashjz.info.util.VaadinUtils;
 
 
-public class LoginView extends HorizontalLayout implements View {
+public class LoginView extends CssLayout implements View {
 
     private TextField username;
     private PasswordField password;
     private Button login;
-    private Button forgotPassword;
+//    private Button forgotPassword;
     private LoginListener loginListener;
     private AccessControl accessControl;
-    private Component loginForm;
+    private Component loginForm,loginPanel;
     private VerticalLayout centeringLayout;
 
     public LoginView(AccessControl accessControl, LoginListener loginListener) {
@@ -27,25 +26,26 @@ public class LoginView extends HorizontalLayout implements View {
         this.loginListener = loginListener;
         this.accessControl = accessControl;
         buildUI();
+
+        this.setSizeFull();
+        this.setResponsive(true);
+        this.setSizeFull();
+
         username.focus();
     }
 
     private void buildUI() {
-
         centeringLayout = new VerticalLayout();
-        Panel loginPanel = new Panel("Login  Panel");
-        loginForm = buildLoginForm();
-        loginPanel.setContent(loginForm);
-        loginPanel.setSizeUndefined();
+        loginPanel = buildLoginForm();
         centeringLayout.addComponent(loginPanel);
-        centeringLayout.setComponentAlignment(loginPanel, Alignment.MIDDLE_CENTER);
-        centeringLayout.setSizeUndefined();
-        centeringLayout.setStyleName(Reindeer.LAYOUT_BLUE);
+        centeringLayout.setComponentAlignment(loginPanel,Alignment.MIDDLE_CENTER);
+        centeringLayout.setMargin(true);
+        this.setStyleName("backColorBlack");
         addComponent(centeringLayout);
-
     }
 
     private Component buildLoginForm() {
+        Panel loginPanel = new Panel("Login  Panel");
         FormLayout loginForm = new FormLayout();
         loginForm.setSizeUndefined();
         loginForm.setMargin(true);
@@ -73,15 +73,17 @@ public class LoginView extends HorizontalLayout implements View {
         login.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         login.addStyleName(ValoTheme.BUTTON_TINY);
 
-        buttons.addComponent(forgotPassword = new Button("Forgot password?"));
-        forgotPassword.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                VaadinUtils.showNotification(new Notification("Hint: Try anything"));
-            }
-        });
-        forgotPassword.addStyleName(ValoTheme.BUTTON_LINK);
-        return loginForm;
+//        buttons.addComponent(forgotPassword = new Button("Forgot password?"));
+//        forgotPassword.addClickListener(new Button.ClickListener() {
+//            @Override
+//            public void buttonClick(Button.ClickEvent event) {
+//                VaadinUtils.showNotification(new Notification("Hint: Try anything"));
+//            }
+//        });
+//        forgotPassword.addStyleName(ValoTheme.BUTTON_LINK);
+        loginPanel.setWidth(40,Unit.PERCENTAGE);
+        loginPanel.setContent(loginForm);
+        return loginPanel;
     }
 
     private void login() {

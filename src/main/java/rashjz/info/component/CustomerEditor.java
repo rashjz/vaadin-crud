@@ -11,7 +11,9 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import rashjz.info.domain.Customer;
+import rashjz.info.domain.EventType;
 import rashjz.info.jpa.CustomerRepository;
+import rashjz.info.jpa.EventTypeRepository;
 import rashjz.info.util.VaadinUtils;
 
 import java.util.Date;
@@ -20,9 +22,10 @@ import java.util.Date;
 @UIScope
 public class CustomerEditor extends VerticalLayout {
 
-    @Autowired
     private final CustomerRepository repository;
 
+    @Autowired
+    private  EventTypeRepository eventTypeRepository;
     /**
      * The currently edited customer
      */
@@ -33,6 +36,7 @@ public class CustomerEditor extends VerticalLayout {
     public TextField lastName = new TextField("Last name");
     public ComboBox currency = new ComboBox("Select Currency");
     public DateField idate = new DateField();
+    protected TwinColSelect twinColSelect = new TwinColSelect();
 
     /* Action buttons */
     public Button save = new Button("Save", FontAwesome.SAVE);
@@ -45,13 +49,12 @@ public class CustomerEditor extends VerticalLayout {
     // Creates a new combobox using an existing container
 
 
-    @Autowired
     public CustomerEditor(CustomerRepository repository) {
         this.repository = repository;
 
-        addComponents(firstName, lastName, currency, idate, actions);
+        addComponents(firstName, lastName, currency, idate,twinColSelect, actions);
 
-
+        System.out.println(",,,,,,,,,,,,,,,,,,,, xxxxxxxxxxx"+eventTypeRepository);
         //............................................................
 
         currency.setInputPrompt("No currency selected");
@@ -63,7 +66,18 @@ public class CustomerEditor extends VerticalLayout {
         currency.addItem("GBP");
         currency.addItem("EUR");
         currency.addItem("USD");
-
+        //twinColSelect
+        for (int i = 0; i < 6; i++) {
+            twinColSelect.addItem(i);
+            twinColSelect.setItemCaption(i, "Option " + i);
+        }
+        twinColSelect.setRows(6);
+        twinColSelect.setNullSelectionAllowed(true);
+        twinColSelect.setLeftColumnCaption("Available options");
+        twinColSelect.setRightColumnCaption("Selected options");
+        twinColSelect.addValueChangeListener(e -> Notification.show("Value changed:",
+                String.valueOf(e.getProperty().getValue()),
+                Notification.Type.TRAY_NOTIFICATION));
         //............................................................
         idate.setValue(new Date());
         // Configure and style components
