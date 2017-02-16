@@ -3,23 +3,23 @@ package rashjz.info;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.UI;
 import org.springframework.beans.factory.annotation.Autowired;
-import rashjz.info.jpa.CustomerRepository;
+import rashjz.info.jpa.AccidentRepository;
 import rashjz.info.jpa.UsersRepository;
 import rashjz.info.util.VaadinUtils;
 
 public class MainLayout extends MainLayoutDesign {
 
-    private final CustomerRepository customerRepository;
+    private final AccidentRepository accidentRepository;
     private final UsersRepository usersRepository;
 
     @Autowired
-    public MainLayout(CustomerRepository customerRepository,UsersRepository usersRepository) {
-        this.customerRepository = customerRepository;
+    public MainLayout(AccidentRepository accidentRepository, UsersRepository usersRepository) {
+        this.accidentRepository = accidentRepository;
         this.usersRepository = usersRepository;
 
         Navigator navigator = new Navigator(UI.getCurrent(), contentPanel);
         navigator.setErrorView(ErrorView.class);
-        navigator.addView(AccidentView.VIEW_NAME, new AccidentView(customerRepository, menuLayout));
+        navigator.addView(AccidentView.VIEW_NAME, new AccidentView(accidentRepository, menuLayout));
         navigator.addView(PluginsView.VIEW_NAME, PluginsView.class);
         navigator.addView(PermissionsView.VIEW_NAME, new PermissionsView(usersRepository));
 

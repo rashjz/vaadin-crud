@@ -1,85 +1,49 @@
 package rashjz.info.component;
 
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
-import rashjz.info.domain.Customer;
-import rashjz.info.domain.EventType;
-import rashjz.info.jpa.CustomerRepository;
+import rashjz.info.domain.Accident;
+import rashjz.info.domain.Citizen;
+import rashjz.info.jpa.AccidentRepository;
 import rashjz.info.jpa.EventTypeRepository;
-import rashjz.info.util.VaadinUtils;
-
-import java.util.Date;
 
 @SpringComponent
 @UIScope
 public class CustomerEditor extends VerticalLayout {
 
-    private final CustomerRepository repository;
+    private final AccidentRepository repository;
+    private FieldGroup binder;
 
     @Autowired
-    private  EventTypeRepository eventTypeRepository;
+    private EventTypeRepository eventTypeRepository;
     /**
-     * The currently edited customer
+     * The currently edited accident
      */
-    private Customer customer;
+    private Accident accident;
+    private PropertysetItem myfields;
 
-    /* Fields to edit properties in Customer entity */
-    public TextField firstName = new TextField("First name");
-    public TextField lastName = new TextField("Last name");
-    public ComboBox currency = new ComboBox("Select Currency");
-    public DateField idate = new DateField();
-    protected TwinColSelect twinColSelect = new TwinColSelect();
+    /* Fields to edit properties in Accident entity */
+    public TextField location = new TextField("Location");
+    public DateField insertdate = new DateField("Insert Date");
+    public DateField actionDate = new DateField("Action Date");
 
     /* Action buttons */
     public Button save = new Button("Save", FontAwesome.SAVE);
     public Button cancel = new Button("Cancel");
     public Button delete = new Button("Delete", FontAwesome.TRASH_O);
 
-
     CssLayout actions = new CssLayout(save, cancel, delete);
 
-    // Creates a new combobox using an existing container
-
-
-    public CustomerEditor(CustomerRepository repository) {
+    public CustomerEditor(AccidentRepository repository) {
         this.repository = repository;
-
-        addComponents(firstName, lastName, currency, idate,twinColSelect, actions);
-
-        System.out.println(",,,,,,,,,,,,,,,,,,,, xxxxxxxxxxx"+eventTypeRepository);
-        //............................................................
-
-        currency.setInputPrompt("No currency selected");
-        currency.setFilteringMode(FilteringMode.CONTAINS);
-        currency.setImmediate(true);
-
-        // Disallow null selections
-        currency.setNullSelectionAllowed(false);
-        currency.addItem("GBP");
-        currency.addItem("EUR");
-        currency.addItem("USD");
-        //twinColSelect
-        for (int i = 0; i < 6; i++) {
-            twinColSelect.addItem(i);
-            twinColSelect.setItemCaption(i, "Option " + i);
-        }
-        twinColSelect.setRows(6);
-        twinColSelect.setNullSelectionAllowed(true);
-        twinColSelect.setLeftColumnCaption("Available options");
-        twinColSelect.setRightColumnCaption("Selected options");
-        twinColSelect.addValueChangeListener(e -> Notification.show("Value changed:",
-                String.valueOf(e.getProperty().getValue()),
-                Notification.Type.TRAY_NOTIFICATION));
-        //............................................................
-        idate.setValue(new Date());
         // Configure and style components
         setSpacing(true);
         actions.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
@@ -87,9 +51,11 @@ public class CustomerEditor extends VerticalLayout {
         save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         // wire action buttons to save, delete and reset
-        save.addClickListener(e -> repository.save(customer));
-        delete.addClickListener(e -> repository.delete(customer));
-        cancel.addClickListener(e -> editCustomer(customer));
+        save.addClickListener(e -> repository.save(accident));
+        delete.addClickListener(e -> repository.delete(accident));
+        cancel.addClickListener(e -> editCustomer(accident));
+
+
         setVisible(false);
 
     }
@@ -100,27 +66,67 @@ public class CustomerEditor extends VerticalLayout {
         void onChange();
     }
 
-    public final void editCustomer(Customer c) {
-        final boolean persisted = c.getId() != null;
+    public final void editCustomer(Accident c) {
+        final boolean persisted = c.getId() != 0;
         if (persisted) {
             // Find fresh entity for editing
-            customer = repository.findOne(c.getId());
+            accident = repository.findOne(Integer.valueOf(c.getId()));
         } else {
-            customer = c;
+            accident = c;
         }
         cancel.setVisible(persisted);
 
-        // Bind customer properties to similarly named fields
+        addComponents(location, insertdate, actionDate);
+
+
+        PropertysetItem item = new PropertysetItem();
+        for (Citizen citizen : accident.getCitizens()) {
+
+            myfields = new PropertysetItem();
+            FormLayout layout = new FormLayout();
+            myfields.addItemProperty("citizen.name", new ObjectProperty(citizen.getName()));
+            myfields.addItemProperty("citizen.surname", new ObjectProperty(citizen.getSurname()));
+            myfields.addItemProperty("citizen.patronymic", new ObjectProperty(citizen.getPatronymic()));
+
+
+            Panel panel = new Panel("Citizen Panel " + citizen.getCitizenId());
+
+            TextField name = new TextField("Citizen name");
+            TextField surname = new TextField("Citizen surname");
+            TextField patronymic = new TextField("Citizen patronymic");
+            layout.addComponents(name, surname, patronymic);
+
+            binder = new FieldGroup(myfields);
+            binder.bind(name, "citizen.name");
+            binder.bind(surname, "citizen.surname");
+            binder.bind(patronymic, "citizen.patronymic");
+
+            panel.setContent(layout);
+
+            addComponent(layout);
+        }
+
+        myfields.addItemProperty("location", new ObjectProperty(accident.getLocation()));
+        myfields.addItemProperty("actionDate", new ObjectProperty(accident.getActionDate()));
+        myfields.addItemProperty("insertdate", new ObjectProperty(accident.getInsertDate()));
+
+        binder.bind(insertdate, "insertdate");
+        binder.bind(location, "location");
+        binder.bind(actionDate, "actionDate");
+        addComponents(actions);
+
+
+        // Bind accident properties to similarly named fields
         // Could also use annotation or "manual binueding" or programmatically
         // moving values from fields to entities befo689re saving
-        BeanFieldGroup.bindFieldsUnbuffered(customer, this);
+//        BeanFieldGroup.bindFieldsUnbuffered(accident, this);
 
         setVisible(true);
 
         // A hack to ensure the whole form is visible
         save.focus();
         // Select all text in firstName field automatically
-        firstName.selectAll();
+        location.selectAll();
     }
 
     public void setChangeHandler(ChangeHandler h) {
@@ -128,7 +134,7 @@ public class CustomerEditor extends VerticalLayout {
         // is clicked
         save.addClickListener(e -> h.onChange());
         delete.addClickListener(e -> h.onChange());
-        currency.addValueChangeListener((Property.ValueChangeListener) event -> VaadinUtils.notify("" + event.getProperty().getValue(), Notification.Type.ERROR_MESSAGE.getStyle()));
+
     }
 
 }

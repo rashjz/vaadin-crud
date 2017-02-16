@@ -36,7 +36,7 @@ $v-font-color: #37404E;
 $v-font-weight: 400;
 
 @import "../valo/valo.scss";
-
+@import "window";
 @mixin mytheme {
   @include valo;
 

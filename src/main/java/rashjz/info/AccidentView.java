@@ -11,8 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.vaadin.viritin.fields.MTable;
 import rashjz.info.component.AboutWindows;
 import rashjz.info.component.CustomerEditor;
-import rashjz.info.domain.Customer;
-import rashjz.info.jpa.CustomerRepository;
+import rashjz.info.domain.Accident;
+import rashjz.info.jpa.AccidentRepository;
 import rashjz.info.util.VaadinUtils;
 
 import java.util.logging.Logger;
@@ -35,7 +35,7 @@ public class AccidentView extends AccidentViewDesign implements View {
     private HorizontalLayout actions;
     public static MTable table;
 
-    public AccidentView(CustomerRepository repository, VerticalLayout menuLayout) {
+    public AccidentView(AccidentRepository repository, VerticalLayout menuLayout) {
 
         super(repository);
         this.editor = new CustomerEditor(repository);
@@ -52,13 +52,13 @@ public class AccidentView extends AccidentViewDesign implements View {
     public void enter(ViewChangeEvent event) {
         logger.info("enter(ViewChangeEvent event) invoked ");
         //create table
-        table = new MTable<>(Customer.class)
-                .withProperties("id", "firstName", "lastName", "currency", "idate")
-                .withColumnHeaders("id", "Ad", "Soyad", "Valuta", "Tarix")
+        table = new MTable<>(Accident.class)
+                .withProperties("id", "location", "insertDate", "actionDate", "note")
+                .withColumnHeaders("id", "location", "insertDate", "actionDate", "note")
                 // setSortableProperties("name", "email")
                 .withFullWidth();
         table.setSelectable(true);
-        table.setCaption("Customer List with lazy loading");
+        table.setCaption("Accident List with lazy loading");
 
         //design
         actions = new HorizontalLayout(filter, addNewBtn);
@@ -79,21 +79,21 @@ public class AccidentView extends AccidentViewDesign implements View {
         // Replace listing with filtered content when user changes filter
         filter.addTextChangeListener(e -> listCustomers(e.getText()));
 
-        // Connect selected Customer to editor or hide if none is selected
+        // Connect selected Accident to editor or hide if none is selected
         table.addItemClickListener(e -> {
             if (null == table.getValue())
                 showEditor(false);
             else {
                 showEditor(true);
-                Customer customer = (Customer) table.getValue();
-                editor.editCustomer(customer);
+                Accident accident = (Accident) table.getValue();
+                editor.editCustomer(accident);
             }
         });
 
-        // Instantiate and edit new Customer the new button is clicked
+        // Instantiate and edit new Accident the new button is clicked
         addNewBtn.addClickListener(e -> {
             showEditor(true);
-            editor.editCustomer(new Customer("", "", "", null));
+            editor.editCustomer(new Accident());
         });
         // Listen changes made by the editor, refresh data from backend
 
@@ -106,7 +106,7 @@ public class AccidentView extends AccidentViewDesign implements View {
     public void listCustomers(String text) {
         table.lazyLoadFrom(
                 // entity fetching strategy
-                (firstRow, asc, sortProperty) -> repository.findByFirstNameLike(
+                (firstRow, asc, sortProperty) -> repository.findByLocationLike(
                         text + "%",
                         new PageRequest(firstRow / PAGESIZE, PAGESIZE,
                                 asc ? Sort.Direction.ASC : Sort.Direction.DESC,
@@ -114,7 +114,7 @@ public class AccidentView extends AccidentViewDesign implements View {
                                 sortProperty == null ? "id" : sortProperty))
                 ,
                 // count fetching strategy
-                () -> (int) repository.countByFirstNameLike(text + "%"),
+                () -> (int) repository.countByLocationLike(text + "%"),
                 PAGESIZE
         );
     }
@@ -126,6 +126,7 @@ public class AccidentView extends AccidentViewDesign implements View {
         contact = barmenu.addItem("Menu", FontAwesome.EXTERNAL_LINK, (MenuBar.Command) selectedItem -> menuLayout.setVisible(true));
         about = barmenu.addItem("About", FontAwesome.INFO, (MenuBar.Command) selectedItem -> {
             AboutWindows aboutWindows = new AboutWindows();
+            aboutWindows.addStyleName("wmcss");
             UI.getCurrent().addWindow(aboutWindows);
         });
         logout = barmenu.addItem("LogOut", FontAwesome.SIGN_OUT, (MenuBar.Command) selectedItem -> VaadinUtils.logOut());

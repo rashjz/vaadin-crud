@@ -1,20 +1,22 @@
 package rashjz.info.domain;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
- * Created by Mobby on 2/9/2017.
+ * Created by Mobby on 2/13/2017.
  */
 @Entity
 public class Users {
     private int id;
-    private String username;
     private String password;
     private String role;
     private Byte status;
+    private String username;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -22,16 +24,6 @@ public class Users {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "username")
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Basic
@@ -64,6 +56,16 @@ public class Users {
         this.status = status;
     }
 
+    @Basic
+    @Column(name = "username")
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,10 +74,10 @@ public class Users {
         Users users = (Users) o;
 
         if (id != users.id) return false;
-        if (username != null ? !username.equals(users.username) : users.username != null) return false;
         if (password != null ? !password.equals(users.password) : users.password != null) return false;
         if (role != null ? !role.equals(users.role) : users.role != null) return false;
         if (status != null ? !status.equals(users.status) : users.status != null) return false;
+        if (username != null ? !username.equals(users.username) : users.username != null) return false;
 
         return true;
     }
@@ -83,21 +85,10 @@ public class Users {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Users{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", status=" + status +
-                '}';
     }
 }

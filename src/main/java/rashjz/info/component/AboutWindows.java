@@ -14,15 +14,15 @@ public class AboutWindows extends Window {
 
         // Some basic content for the window
         VerticalLayout content = new VerticalLayout();
-        Label header=new Label("Yol Nəqliyyat hadisələrinin Qeydiyyat sistemi");
+        Label header = new Label("Yol Nəqliyyat hadisələrinin Qeydiyyat sistemi");
         content.addComponent(header);
         content.addComponent(new Label("Copyright by rashjz Bakı 2017"));
-        content.setComponentAlignment(header,Alignment.MIDDLE_CENTER);
+        content.setComponentAlignment(header, Alignment.MIDDLE_CENTER);
         content.setMargin(true);
 
 
         this.setWidth(35, Unit.PERCENTAGE);
-        this.setHeight(35,Unit.PERCENTAGE);
+        this.setHeight(35, Unit.PERCENTAGE);
         // Disable the close button
         setClosable(true);
 
@@ -35,7 +35,7 @@ public class AboutWindows extends Window {
         });
 
         content.addComponent(ok);
-        content.setComponentAlignment(ok,Alignment.BOTTOM_CENTER);
+        content.setComponentAlignment(ok, Alignment.BOTTOM_CENTER);
 
 
         content.setSizeFull();

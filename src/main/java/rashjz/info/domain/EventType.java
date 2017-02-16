@@ -1,33 +1,28 @@
 package rashjz.info.domain;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.*;
 
 /**
- * Created by rasha_000 on 2/10/2017.
+ * Created by Mobby on 2/13/2017.
  */
 @Entity
-@Table(name = "event_type")
-@Transactional
+@Table(name = "event_type", schema = "vaadin", catalog = "")
 public class EventType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    private int id;
     private String name;
 
-    public EventType() {
-    }
-
-    public Long getId() {
+    @Id
+    @Column(name = "id")
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -37,10 +32,22 @@ public class EventType {
     }
 
     @Override
-    public String toString() {
-        return "EventType{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EventType eventType = (EventType) o;
+
+        if (id != eventType.id) return false;
+        if (name != null ? !name.equals(eventType.name) : eventType.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 }

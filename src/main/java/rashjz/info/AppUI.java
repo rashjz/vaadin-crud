@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import rashjz.info.authentication.AccessControl;
 import rashjz.info.authentication.BasicAccessControl;
 import rashjz.info.authentication.LoginListener;
-import rashjz.info.jpa.CustomerRepository;
+import rashjz.info.jpa.AccidentRepository;
 import rashjz.info.jpa.UsersRepository;
 
 import javax.servlet.annotation.WebServlet;
@@ -26,13 +26,13 @@ import javax.servlet.annotation.WebServlet;
 public class AppUI extends UI {
 
     private AccessControl accessControl;
-    public CustomerRepository customerRepository;
+    public AccidentRepository accidentRepository;
     public UsersRepository usersRepository;
 
     @Autowired
-    public AppUI(CustomerRepository customerRepository,UsersRepository usersRepository) {
+    public AppUI(AccidentRepository accidentRepository, UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
-        this.customerRepository = customerRepository;
+        this.accidentRepository = accidentRepository;
     }
 
 
@@ -56,7 +56,7 @@ public class AppUI extends UI {
 
     protected void showMainView() {
         addStyleName(ValoTheme.UI_WITH_MENU);
-        setContent(new MainLayout(customerRepository,usersRepository));
+        setContent(new MainLayout(accidentRepository,usersRepository));
         getNavigator().navigateTo(getNavigator().getState());
     }
 

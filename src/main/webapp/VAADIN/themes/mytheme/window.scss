@@ -1,0 +1,28 @@
+// CSS for windows
+//.v-window-wmcss .v-window-outerheader {
+//  background-color: rgba(50, 205, 246, 0.59) !important;
+//}
+
+.v-window-wmcss .v-window-header, .v-window-outerheader {
+  background-color: black !important;
+  color: white !important;
+}
+
+.mytheme .v-window-closebox, .mytheme .v-window-maximizebox, .mytheme .v-window-restorebox {
+  background-color: black !important;
+  color: greenyellow !important;
+}
+
+//.v-window-wmcss .v-window-contents {
+//  color: black;
+//}
+//.v-window-wmcss .v-window-closebox {
+//  color: red;
+//  background-color: yellowgreen
+//}
+//.v-window-wmcss .v-window-restorebox {
+//  background-color: yellow;
+//}
+//.v-window-wmcss .v-window-wrap {
+//  color: red;
+//}

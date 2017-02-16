@@ -2,10 +2,20 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
     <persistence-unit name="vaadindb" transaction-type="JTA">
         <class>rashjz.info.domain.Users</class>
-        <class>rashjz.info.domain.Customer</class>
+        <class>rashjz.info.domain.Accident</class>
         <class>rashjz.info.domain.EventType</class>
+        <class>rashjz.info.domain.Citizen</class>
+        <class>rashjz.info.domain.Vechile</class>
         <properties>
 
+            <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/vaadin"/>
+            <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/vaadin"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/vaadin"/>
+            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
+            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/vaadin"/>
+            <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
         </properties>
     </persistence-unit>
 </persistence>
